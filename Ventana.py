@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import Menu
-
+from tkinter import *
+from tkinter import filedialog, Tk
+import os
 
 class ventana:
     def __init__(self, inter):
@@ -32,6 +34,33 @@ class ventana:
         barraMenu.add_cascade(label='Reportes', menu=reportesMenu)
         barraMenu.add_cascade(label='Salir', menu=salirMenu)
 
+        cargarMenu.add_command(label='Seleccionar archivo', command = self.abrir)
+        analizarMenu.add_command(label='Analizando')
+        salirMenu.add_command(label='Salir del programa', command = self.salir)
+
     def original(self):
         print("Original")
+
+    def abrir(self):
+        Tk().withdraw()
+        archivo = filedialog.askopenfile(
+            title="Seleccionar un archivo LFP",
+            initialdir="./",
+            filetypes=(
+                ("Archivos PXLA", "*.pxla"),
+                ("Todos los archivos", "*.*")
+            )
+        )
+
+        if archivo is None:
+            print("Error de lectura")
+            return None
+        else:
+            texto = archivo.read()
+            archivo.close()
+            print("Lectura Exitosa")
+            return texto
+
+    def salir(self):
+        self.interfaz.destroy()
 
